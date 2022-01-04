@@ -7,9 +7,7 @@ router.use(express.json())
 //obtener todos los usuarios
 router.get('/', async (req, res) => {
   try {
-      let users = await User.findAll({
-        attributes: ["id", "name", "accum", "level_reached"]
-      })
+      let users = await User.findAll()
       return res.json(users)
   } catch(err) {console.log(err)}
 });
@@ -22,6 +20,26 @@ router.post('/', async (req, res) => {
 
     return res.json(newUser)
   } catch (err) {console.log(err)}
+})
+
+//modificar los datos del usuario
+router.put('/:id', async (req, res) => {
+  const {id} = req.params
+  const {name, accum, level_reached, levelId, prizeId} = req.body
+
+  const userUpdate = {name, accum, level_reached, levelId, prizeId}
+
+  const user = await User.findByPk(id)
+  
+  for (const key in user.dataValues) {
+    if (userUpdate[key]) {
+      user[key] = userUpdate[key];
+    }
+  }
+
+  await user.save();
+  return res.send(user);
+
 })
 
 
