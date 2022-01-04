@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
       let questions = await Question.findAll({
-        include: {model: Answer, require: true, attributes:["id", "answer", "is_correct"]}
+        include: {model: Answer, require: true}
       })
       return res.json(questions)
   } catch(err) {console.log(err)}
