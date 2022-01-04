@@ -36,12 +36,19 @@ const { User, History, Prize, Level, Question, Answer } = sequelize.models;
 // Aca vendrian las relaciones
 History.belongsTo(User)
 User.hasOne(History)
+
 User.belongsTo(Level)
 Level.hasMany(User)
+
+User.belongsTo(Prize)
+Prize.hasMany(User)
+
 Prize.belongsTo(Level)
 Level.hasOne(Prize)
+
 Question.belongsTo(Level)
 Level.hasMany(Question)
+
 Answer.belongsTo(Question)
 Question.hasMany(Answer)
 
