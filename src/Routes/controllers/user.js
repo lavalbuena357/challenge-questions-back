@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
 
 //crear usuario
 router.post('/', async (req, res) => {
-  const {name, accum, level_reached} = req.body
+  const {name, accum, level_reached, levelId, prizeId} = req.body
   try {
-    const newUser = await User.create({name, accum, level_reached})
+    const newUser = await User.create({name, accum, level_reached, levelId, prizeId})
 
     return res.json(newUser)
   } catch (err) {console.log(err)}
