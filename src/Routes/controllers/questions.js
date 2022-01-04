@@ -1,5 +1,5 @@
 const express = require('express')
-const { Question } = require('../../db.js')
+const { Question, Answer } = require('../../db.js')
 const router = express.Router()
 
 router.use(express.json())
@@ -17,7 +17,9 @@ router.post('/', async (req, res) => {
 //obtener todas las preguntas
 router.get('/', async (req, res) => {
   try {
-      let questions = await Question.findAll()
+      let questions = await Question.findAll({
+        include: {model: Answer, require: true, attributes:["id", "answer", "is_correct"]}
+      })
       return res.json(questions)
   } catch(err) {console.log(err)}
 });

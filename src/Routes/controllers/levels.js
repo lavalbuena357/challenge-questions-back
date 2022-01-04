@@ -1,5 +1,5 @@
 const express = require('express')
-const { Level, Prize, User } = require('../../db.js')
+const { Level, Prize, Question, Answer } = require('../../db.js')
 const router = express.Router()
 
 router.use(express.json())
@@ -8,7 +8,15 @@ router.use(express.json())
 router.get('/', async (req, res) => {
   try {
       let levels = await Level.findAll({
-        include: [{model: Prize, require: true}, {model: User, require: true}]
+        include: [
+          {model: Prize, require: true, attributes: ["id", "points"]},
+          {
+            model: Question, 
+            require: true, 
+            attributes: ["id", "question"],
+            include: {model: Answer, require: true, attributes: ["id", "answer", "is_correct"] }
+          }
+        ]
       })
       return res.json(levels)
   } catch(err) {console.log(err)}

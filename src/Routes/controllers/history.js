@@ -8,7 +8,12 @@ router.use(express.json())
 router.get('/', async (req, res) => {
   try {
       let history = await History.findAll({
-          include: {model: User, require: true}
+        attributes: ["id", "date"],
+        include: {
+          model: User, 
+          require: true,
+          attributes: ["id", "name", "accum", "level_reached"]
+        }
       })
       return res.json(history)
   } catch(err) {console.log(err)}
