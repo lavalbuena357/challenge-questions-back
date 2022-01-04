@@ -34,13 +34,13 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { User, History, Prize, Level, Question, Answer } = sequelize.models;
 
 // Aca vendrian las relaciones
-User.hasOne(History)
 History.belongsTo(User)
-User.hasOne(Level)
-Level.belongsToMany(User)
+User.hasOne(History)
+User.belongsTo(Level)
+Level.hasMany(User)
 Prize.belongsTo(Level)
 Level.hasOne(Prize)
-Question.belongsTo(Category)
+Question.belongsTo(Level)
 Level.hasMany(Question)
 Answer.belongsTo(Question)
 Question.hasMany(Answer)
