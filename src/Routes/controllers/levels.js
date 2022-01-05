@@ -22,6 +22,26 @@ router.get('/', async (req, res) => {
   } catch(err) {console.log(err)}
 });
 
+//obtener niveles por dificultar
+router.get('/:level', async (req, res) => {
+  const {level} = req.params 
+  try {
+      let levels = await Level.findAll({
+        where: {level},
+        include: [
+          {model: Prize, require: true, attributes: ["id", "points"]},
+          {
+            model: Question, 
+            require: true, 
+            attributes: ["id", "question"],
+            include: {model: Answer, require: true, attributes: ["id", "answer", "is_correct"] }
+          }
+        ]
+      })
+      return res.json(levels)
+  } catch(err) {console.log(err)}
+});
+
 //crear un nivel
 router.post('/', async (req, res) => {
   const {level} = req.body
