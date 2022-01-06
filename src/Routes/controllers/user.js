@@ -7,8 +7,19 @@ router.use(express.json())
 //obtener todos los usuarios
 router.get('/', async (req, res) => {
   try {
-      let users = await User.findAll()
+      let users = await User.findAll({
+		  attributes: ["id", "name", "accum", "level_reached"]
+	  })
       return res.json(users)
+  } catch(err) {console.log(err)}
+});
+
+//obtener usuario por id
+router.get('/:id', async (req, res) => {
+	const {id} = req.params
+  try {
+      let user = await User.findByPk(id)
+      return res.json(user)
   } catch(err) {console.log(err)}
 });
 
